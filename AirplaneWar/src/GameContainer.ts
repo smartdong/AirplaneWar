@@ -109,6 +109,7 @@
         
         //开始创建敌机
         this.enemyPlaneTimer.addEventListener(egret.TimerEvent.TIMER,this.createEnemyPlane,this);
+        this.enemyPlaneTimer.delay = 1000;
         this.enemyPlaneTimer.start();
         
         //接收手指移动
@@ -163,9 +164,7 @@
     //创建敌机
     private createEnemyPlane(event: egret.TimerEvent): void {
         
-        var fireDelay: number = 1000;
-        
-        fireDelay -= (this.score / 30) * 100;
+        var fireDelay = 1000 - (this.score / 30) * 100;
         
         if (fireDelay < 500) {
             fireDelay = 500;
@@ -205,6 +204,14 @@
     
     //更新画面
     private gameViewUpdate(event: egret.Event): void {
+        
+        var createPlaneDelay = 1000 - (this.score / 30) * 100;
+                
+        if (createPlaneDelay < 500) {
+            createPlaneDelay = 500;
+        }
+        
+        this.enemyPlaneTimer.delay = createPlaneDelay;
         
         var nowTime: number = egret.getTimer();
         var fps: number = 1000 / (nowTime-this.lastTime);
