@@ -270,6 +270,11 @@
             tx = Math.max(0,tx);
             tx = Math.min(this.stageW-this.myPlane.width,tx);
             this.myPlane.x = tx;
+            
+            var ty: number = event.localY;
+            ty = Math.max(0,ty);
+            ty = Math.min(this.stageH-this.myPlane.height,ty);
+            this.myPlane.y = ty;
         }
     }
     
