@@ -37,6 +37,11 @@
     
     private lastTime: number;
     
+    
+    //记录手指上一次的位置
+    private lastX: number;
+    private lastY: number;
+    
 	public constructor() {
         super();
         this.addEventListener(egret.Event.ADDED_TO_STAGE,this.onAddToStage,this);
@@ -109,6 +114,7 @@
         //接收手指移动
         this.touchEnabled = true;
         this.addEventListener(egret.TouchEvent.TOUCH_MOVE,this.touchHandler,this);
+        this.addEventListener(egret.TouchEvent.TOUCH_BEGIN, this.touchHandler, this);
     }
     
     private gameOver(): void {
@@ -123,6 +129,7 @@
         
         this.removeEventListener(egret.Event.ENTER_FRAME,this.gameViewUpdate,this);
         this.removeEventListener(egret.TouchEvent.TOUCH_MOVE,this.touchHandler,this);
+        this.removeEventListener(egret.TouchEvent.TOUCH_BEGIN,this.touchHandler,this);
         
         this.removeEventListener(egret.TimerEvent.TIMER,this.createEnemyPlane,this);
         this.enemyPlaneTimer.stop();
@@ -265,13 +272,26 @@
     
     //处理手指移动
     private touchHandler(event: egret.TouchEvent): void {
+        
+        if (event.type == egret.TouchEvent.TOUCH_BEGIN) {
+            this.lastX = event.localX;
+            this.lastY = event.localY;
+        }
+        
         if (event.type == egret.TouchEvent.TOUCH_MOVE) {
-            var tx: number = event.localX;
+            
+            var deltaX = event.localX - this.lastX;
+            var deltaY = event.localY - this.lastY;
+            
+            this.lastX = event.localX;
+            this.lastY = event.localY;
+            
+            var tx: number = this.myPlane.x + deltaX;
             tx = Math.max(0,tx);
             tx = Math.min(this.stageW-this.myPlane.width,tx);
             this.myPlane.x = tx;
             
-            var ty: number = event.localY;
+            var ty: number = this.myPlane.y + deltaY;
             ty = Math.max(0,ty);
             ty = Math.min(this.stageH-this.myPlane.height,ty);
             this.myPlane.y = ty;
