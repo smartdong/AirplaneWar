@@ -315,7 +315,7 @@
         for (i = 0;i < this.enemyPlanes.length;i++) {
             enemyPlane = this.enemyPlanes[i];
             if (GameUtil.hitTest(enemyPlane, this.myPlane)) {
-                this.myPlane.blood = 0;
+                this.myPlane.blood -= 5;
             }
         }
         
