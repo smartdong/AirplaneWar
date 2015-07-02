@@ -162,7 +162,16 @@
     
     //创建敌机
     private createEnemyPlane(event: egret.TimerEvent): void {
-        var enemyPlane: Airplane = Airplane.produce("f2",1000);
+        
+        var fireDelay: number = 1000;
+        
+        fireDelay -= (this.score / 30) * 100;
+        
+        if (fireDelay < 500) {
+            fireDelay = 500;
+        }
+        
+        var enemyPlane: Airplane = Airplane.produce("f2",fireDelay);
         enemyPlane.x = Math.random()*(this.stageW-enemyPlane.width);//随机坐标
         enemyPlane.y = -enemyPlane.height - (Math.random()%10)*300;//随机坐标
         enemyPlane.addEventListener("createBullet",this.createBulletHandler,this);
