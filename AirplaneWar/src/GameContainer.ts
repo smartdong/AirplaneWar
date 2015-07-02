@@ -320,7 +320,18 @@
         for (i = 0;i < this.enemyPlanes.length;i++) {
             enemyPlane = this.enemyPlanes[i];
             if (GameUtil.hitTest(enemyPlane, this.myPlane)) {
+                
                 this.myPlane.blood -= 5;
+                
+                //不要出现负数 会比较尴尬
+                if (this.myPlane.blood < 0) {
+                    this.myPlane.blood = 0;
+                }
+                
+                //直接干死敌机
+                if (delPlanes.indexOf(enemyPlane) == -1) {
+                    delPlanes.push(enemyPlane);
+                }
             }
         }
         
@@ -357,13 +368,6 @@
             }
         }
     }
-    
-    
-    
-    
-    
-    
-    
 }
 
 
