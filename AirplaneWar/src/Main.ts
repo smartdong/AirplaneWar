@@ -77,6 +77,8 @@ class Main extends egret.DisplayObjectContainer {
             
             var gameContainer: GameContainer = new GameContainer();
             this.addChild(gameContainer);
+            
+            egret.Profiler.getInstance().run();
         }
     }
 
